@@ -32,27 +32,33 @@ class Window(QMainWindow):
         # set up search
         self.search_group = QWidget()
         self.search_layout = QHBoxLayout(self.search_group)
+        # search line edit
         self.search = QLineEdit()
-        self.search_button = QPushButton('Search')
-        self.search_layout.addWidget(self.search)
-        self.search_layout.addWidget(self.search_button)
         self.search.setPlaceholderText('Search here...')
+        self.search_layout.addWidget(self.search)
+        # search button
+        self.search_button = QPushButton('Search')
+        self.search_layout.addWidget(self.search_button)
+        # add search group
         self.layout.addWidget(self.search_group)
         
         # set up button group (download, output folder, about, quit)
         self.button_group = QWidget()
         self.button_layout = QHBoxLayout(self.button_group)
-        
+        # download button
         self.download_button = QPushButton('Download')
         self.button_layout.addWidget(self.download_button)
+        # output button
         self.output_button = QPushButton('Choose output folder...')
         self.button_layout.addWidget(self.output_button)
+        # about button
         self.about_button = QPushButton('About')
         self.about_button.clicked.connect(self.about)
         self.button_layout.addWidget(self.about_button)
+        # quit button
         self.quit_button = QPushButton('Quit')
         self.button_layout.addWidget(self.quit_button)
-        
+        # add button group
         self.layout.addWidget(self.button_group)
         
         self.centralWidget.setLayout(self.layout)
