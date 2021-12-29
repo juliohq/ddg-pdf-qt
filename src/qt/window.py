@@ -25,6 +25,7 @@ class Window(QMainWindow):
     
     def _on_changed_output(self, path):
         self.output.setText(path)
+        self.download_button.setEnabled(True if path else False)
     
     def choose_output(self):
         dialog = QFileDialog()
@@ -60,6 +61,7 @@ class Window(QMainWindow):
         self.button_layout = QHBoxLayout(self.button_group)
         # download button
         self.download_button = QPushButton('Download')
+        self.download_button.setEnabled(False)
         self.button_layout.addWidget(self.download_button)
         # output
         self.output = QLabel('')
