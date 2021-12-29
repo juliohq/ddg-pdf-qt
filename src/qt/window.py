@@ -6,6 +6,8 @@ from PyQt5.QtWidgets import (
     QWidget,
     QApplication,
     QLineEdit,
+    QFileDialog,
+    QLabel,
 )
 from PyQt5.QtCore import pyqtSignal
 
@@ -19,6 +21,17 @@ class Window(QMainWindow):
         self.setWindowTitle('DuckDuckGo PDF Downloader')
         self.resize(800, 600)
         self.setup_ui()
+        self.changed_output.connect(self._on_changed_output)
+    
+    def _on_changed_output(self, path):
+        self.output.setText(path)
+    
+    def choose_output(self):
+        dialog = QFileDialog()
+        dialog.setAcceptMode(QFileDialog.AcceptMode.AcceptOpen)
+        dialog.setFileMode(QFileDialog.FileMode.Directory)
+        dialog.fileSelected.connect(lambda path: self.changed_output.emit(path))
+        dialog.exec()
     
     def about(self):
         app = QApplication.instance()
@@ -48,9 +61,13 @@ class Window(QMainWindow):
         # download button
         self.download_button = QPushButton('Download')
         self.button_layout.addWidget(self.download_button)
+        # output
+        self.output = QLabel('')
+        self.button_layout.addWidget(self.output)
         # output button
         self.output_button = QPushButton('Choose output folder...')
         self.button_layout.addWidget(self.output_button)
+        self.output_button.clicked.connect(self.choose_output)
         # about button
         self.about_button = QPushButton('About')
         self.about_button.clicked.connect(self.about)
