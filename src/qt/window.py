@@ -7,7 +7,6 @@ from PyQt5.QtWidgets import (
     QApplication,
     QLineEdit,
     QFileDialog,
-    QLabel,
 )
 from PyQt5.QtCore import pyqtSignal
 
@@ -64,7 +63,8 @@ class Window(QMainWindow):
         self.download_button.setEnabled(False)
         self.button_layout.addWidget(self.download_button)
         # output
-        self.output = QLabel('')
+        self.output = QLineEdit()
+        self.output.setPlaceholderText = 'Enter a valid path...'
         self.button_layout.addWidget(self.output)
         # output button
         self.output_button = QPushButton('Choose output folder...')
