@@ -82,6 +82,9 @@ class Window(QMainWindow):
         self.output_button = QPushButton('Choose output folder...')
         self.button_layout.addWidget(self.output_button)
         self.output_button.clicked.connect(self.choose_output)
+        # settings button
+        self.settings_button = QPushButton('Settings')
+        self.button_layout.addWidget(self.settings_button)
         # about button
         self.about_button = QPushButton('About')
         self.about_button.clicked.connect(self.about)
