@@ -1,3 +1,4 @@
+import os
 from PyQt5.QtWidgets import (
     QMainWindow,
     QVBoxLayout,
@@ -24,7 +25,6 @@ class Window(QMainWindow):
     
     def _on_changed_output(self, path):
         self.output.setText(path)
-        self.download_button.setEnabled(True if path else False)
     
     def choose_output(self):
         dialog = QFileDialog()
@@ -66,6 +66,7 @@ class Window(QMainWindow):
         self.output = QLineEdit()
         self.output.setPlaceholderText = 'Enter a valid path...'
         self.button_layout.addWidget(self.output)
+        self.output.textChanged.connect(lambda path: self.download_button.setEnabled(True if path and os.path.isdir(path) else False))
         # output button
         self.output_button = QPushButton('Choose output folder...')
         self.button_layout.addWidget(self.output_button)
