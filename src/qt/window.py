@@ -15,6 +15,7 @@ class Window(QMainWindow):
     clicked_search = pyqtSignal(str) # search
     clicked_download = pyqtSignal()
     changed_output = pyqtSignal(str) # path
+    clicked_quick = pyqtSignal(str) # search
     
     def __init__(self):
         super().__init__()
@@ -22,6 +23,11 @@ class Window(QMainWindow):
         self.resize(800, 600)
         self.setup_ui()
         self.changed_output.connect(self._on_changed_output)
+    
+    def _on_changed_output_text(self, path):
+        enabled = True if path and os.path.isdir(path) else False
+        self.download_button.setEnabled(enabled)
+        self.quick_button.setEnabled(enabled)
     
     def _on_changed_output(self, path):
         self.output.setText(path)
@@ -52,6 +58,11 @@ class Window(QMainWindow):
         # search button
         self.search_button = QPushButton('Search')
         self.search_layout.addWidget(self.search_button)
+        # quick download button
+        self.quick_button = QPushButton('Quick Download...')
+        self.quick_button.clicked.connect(lambda: self.clicked_quick.emit(self.search.text()))
+        self.quick_button.setEnabled(False)
+        self.search_layout.addWidget(self.quick_button)
         # add search group
         self.layout.addWidget(self.search_group)
         
@@ -66,7 +77,7 @@ class Window(QMainWindow):
         self.output = QLineEdit()
         self.output.setPlaceholderText = 'Enter a valid path...'
         self.button_layout.addWidget(self.output)
-        self.output.textChanged.connect(lambda path: self.download_button.setEnabled(True if path and os.path.isdir(path) else False))
+        self.output.textChanged.connect(self._on_changed_output_text)
         # output button
         self.output_button = QPushButton('Choose output folder...')
         self.button_layout.addWidget(self.output_button)
