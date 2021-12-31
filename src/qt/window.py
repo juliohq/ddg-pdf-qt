@@ -1,15 +1,6 @@
 import os
-from PyQt5.QtWidgets import (
-    QMainWindow,
-    QVBoxLayout,
-    QHBoxLayout,
-    QPushButton,
-    QWidget,
-    QApplication,
-    QLineEdit,
-    QFileDialog,
-)
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
 
 class Window(QMainWindow):
     clicked_search = pyqtSignal(str) # search
@@ -65,6 +56,15 @@ class Window(QMainWindow):
         self.search_layout.addWidget(self.quick_button)
         # add search group
         self.layout.addWidget(self.search_group)
+        
+        # scroll area
+        self.scroll_area = QScrollArea()
+        self.scroll_layout = QVBoxLayout(self.scroll_area)
+        self.layout.addWidget(self.scroll_area)
+        # no search label
+        self.search_label = QLabel('Please, search in the bar above to see results')
+        self.search_label.setAlignment(Qt.AlignCenter)
+        self.scroll_layout.addWidget(self.search_label)
         
         # set up button group (download, output folder, about, quit)
         self.button_group = QWidget()
